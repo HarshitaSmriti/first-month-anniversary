@@ -1,38 +1,900 @@
-.App {
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #2b0a3d, black);
+  font-family: "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+/* ===== HOME PAGE ===== */
+.home-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  padding: 40px;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.right {
+  flex: 1;
+  color: #c084fc;
+  max-width: 500px;
+}
+
+.right h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.love-text {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.frame {
+  width: 400px;
+  height: 500px;
+  background: black;
+  padding: 12px;
+  border-radius: 25px;
+  border: 4px solid #7c3aed;
+  box-shadow: 0 0 30px #7c3aed, 0 0 80px rgba(124, 58, 237, 0.7);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  animation: fade 1.5s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.btn {
+  margin-top: 30px;
+  display: inline-block;
+  padding: 14px 40px;
+  background: #7c3aed;
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 0 20px #7c3aed;
+}
+
+/* ===================================================== */
+/* ================== JOURNEY PAGE ===================== */
+/* ===================================================== */
+
+.journey {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1b001f, black);
+  color: #c084fc;
+  padding: 80px 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+.journey h1 {
+  font-size: 3.5rem;
+  margin-bottom: 80px;
+  text-shadow: 0 0 25px #7c3aed;
+}
+
+/* ===== TIMELINE (ROAD FIXED) ===== */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 0;
+  min-height: 700px; /* 👈 CRITICAL FIX */
+}
+
+/* Road line */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    rgba(220,20,60,0.15),
+    crimson,
+    rgba(220,20,60,0.15)
+  );
+  box-shadow: 0 0 30px crimson;
+}
+
+/* Timeline events */
+.event {
+  position: relative;
+  width: 50%;
+  padding: 80px 0; /* gives height to road */
+  cursor: pointer;
+}
+
+.event.left {
+  left: 0;
+  text-align: right;
+}
+
+.event.right {
+  left: 50%;
+  text-align: left;
+}
+
+/* Dots */
+.dot {
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle, #ff7aa2, #c084fc);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 25px #ff7aa2;
+}
+
+.event.left .dot { right: -9px; }
+.event.right .dot { left: -9px; }
+
+/* ===== PAGE END BUTTON ===== */
+.journey-next {
+  margin-top: 120px;
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.journey-next button {
+  padding: 16px 55px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border: none;
+  border-radius: 35px;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 0 35px #7c3aed;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.journey-next button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 50px #7c3aed;
+}
+
+/* ===== POPUP ===== */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-card {
+  background: linear-gradient(145deg, #120017, #1b0030);
+  border-radius: 25px;
+  box-shadow: 0 0 50px #7c3aed;
+  animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Popup layout */
+.popup-split {
+  display: flex;
+  width: 950px;
+  height: 520px;
+  overflow: hidden;
+  border-radius: 25px;
+}
+
+/* Popup left image */
+.popup-left {
+  width: 60%;
+  padding: 18px;
+  background: #0b0011;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(124,58,237,0.6);
+}
+
+/* Popup right content */
+.popup-right {
+  width: 40%;
+  padding: 40px 35px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.popup-right h3 {
+  font-size: 1.4rem;
+  color: #c084fc;
+}
+
+.popup-right p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #e9d5ff;
+}
+
+.popup-right button {
+  align-self: center;
+  padding: 14px 50px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px #7c3aed;
+}
+/* ===================================================== */
+/* ================= LETTER PAGE ======================= */
+/* ===================================================== */
+
+.letter-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2b0a3d, black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Envelope flying animation */
+.envelope {
+  position: relative;
+  transform: translateX(-120vw) rotate(-12deg);
+  transition: transform 1.6s ease-out;
+}
+
+.envelope.arrived {
+  transform: translateX(0) rotate(0deg);
+}
+
+/* Envelope body */
+.envelope-body {
+  width: 420px;
+  height: 260px;
+  background: linear-gradient(145deg, #1b0030, #120017);
+  border-radius: 18px;
+  box-shadow: 0 0 40px #7c3aed;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Envelope flap */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(145deg, #7c3aed, #9333ea);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 1s ease;
+  z-index: 3;
+}
+
+/* Flap opens */
+.envelope-body.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+/* Letter paper */
+.letter-paper {
+  position: absolute;
+  inset: 16px;
+  background: #fdf4ff;
+  border-radius: 12px;
+  padding: 28px;
+  transform: translateY(45%);
+  transition: transform 1s ease;
+  z-index: 1;
+}
+
+/* Paper slides out */
+.envelope-body.open .letter-paper {
+  transform: translateY(0);
+}
+
+/* Letter content */
+.letter-content {
+  color: #2b003a;
+  animation: fadeInText 1.5s ease;
+}
+
+.letter-content h2 {
+  margin-bottom: 16px;
+  color: #7c3aed;
+}
+
+.letter-content p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.signature {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Hint text */
+.letter-hint {
+  margin-top: 20px;
+  text-align: center;
+  color: #c084fc;
+  opacity: 0.85;
+}
+
+/* Text fade animation */
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= LETTER PAGE ================= */
+
+.letter-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2b0a3d, black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ✉️ Envelope fly-in */
+.envelope {
+  position: relative;
+  transform: translateX(-140vw) translateY(-40px) rotate(-15deg);
+  transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Final resting position */
+.envelope.arrived {
+  transform: translateX(0) translateY(0) rotate(0deg);
+}
+
+/* 🌬️ Floating after arrival */
+.envelope.floating {
+  animation: floatEnvelope 4s ease-in-out infinite;
+}
+
+@keyframes floatEnvelope {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+/* Envelope body */
+.envelope-body {
+  width: 420px;
+  height: 260px;
+  background: linear-gradient(145deg, #1b0030, #120017);
+  border-radius: 18px;
+  box-shadow: 0 0 40px #7c3aed;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Flap */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(145deg, #7c3aed, #9333ea);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 1s ease;
+  z-index: 3;
+}
+
+.envelope-body.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+/* Letter paper */
+.letter-paper {
+  position: absolute;
+  inset: 16px;
+  background: #fdf4ff;
+  border-radius: 12px;
+  padding: 28px;
+  transform: translateY(45%);
+  transition: transform 1s ease;
+}
+
+.envelope-body.open .letter-paper {
+  transform: translateY(0);
+}
+
+/* Letter content */
+.letter-content {
+  color: #2b003a;
+  animation: fadeInText 1.2s ease;
+}
+
+.letter-content h2 {
+  color: #7c3aed;
+  margin-bottom: 14px;
+}
+
+.letter-content p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.signature {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Hint */
+.letter-hint {
+  margin-top: 20px;
+  text-align: center;
+  color: #c084fc;
+  opacity: 0.85;
+}
+
+/* Text fade */
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= LETTER PAGE ================= */
+
+.letter-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2b0a3d, black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Fly-in wrapper */
+.envelope {
+  position: relative;
+  transform: translateX(-140vw) rotate(-15deg);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.envelope.arrived {
+  transform: translateX(0) rotate(0deg);
+}
+
+/* Floating wrapper (separate transform!) */
+.envelope-inner.floating {
+  animation: floatEnvelope 4s ease-in-out infinite;
+}
+
+@keyframes floatEnvelope {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Envelope body */
+.envelope-body {
+  width: 420px;
+  height: 260px;
+  background: linear-gradient(145deg, #1b0030, #120017);
+  border-radius: 18px;
+  box-shadow: 0 0 40px #7c3aed;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Flap */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(145deg, #7c3aed, #9333ea);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 1s ease;
+  z-index: 3;
+}
+
+.envelope-body.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+/* Paper */
+.letter-paper {
+  position: absolute;
+  inset: 16px;
+  background: #fdf4ff;
+  border-radius: 12px;
+  padding: 28px;
+  transform: translateY(45%);
+  transition: transform 1s ease;
+}
+
+.envelope-body.open .letter-paper {
+  transform: translateY(0);
+}
+
+/* Text */
+.letter-content {
+  animation: fadeInText 1.2s ease;
+  color: #2b003a;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.signature {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.letter-hint {
+  margin-top: 20px;
+  color: #c084fc;
+  text-align: center;
+}
+
+/* ================= SPARKLES ================= */
+.sparkles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sparkle {
+  position: absolute;
+  bottom: -10px;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, white, rgba(255,255,255,0.3));
+  border-radius: 50%;
+  opacity: 0.8;
+  animation-name: sparkleFloat;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes sparkleFloat {
+  from {
+    transform: translateY(0) scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-120vh) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ================= FULLSCREEN LETTER (FRAMED) ================= */
+
+.letter-fullscreen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #2b0a3d, black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+/* ✨ THE LETTER FRAME */
+.letter-frame {
+  width: 75vw;
+  max-width: 900px;
+  height: 80vh;
+
+  background: linear-gradient(
+    145deg,
+    #fdf4ff,
+    #f5e9ff
+  );
+
+  border-radius: 25px;
+  padding: 50px 60px;
+
+  box-shadow:
+    0 0 40px rgba(124, 58, 237, 0.6),
+    inset 0 0 30px rgba(192, 132, 252, 0.3);
+
+  overflow: hidden;
+  position: relative;
+}
+
+/* Optional decorative border glow */
+.letter-frame::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 18px;
+  border: 2px solid rgba(124, 58, 237, 0.4);
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Typed text */
+.typewriter {
+  color: #2b003a;
+  font-size: 1.25rem;
+  line-height: 2;
+  white-space: pre-wrap;
+  font-family: "Segoe UI", serif;
+
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+
+  scrollbar-width: none; /* Firefox */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.typewriter::-webkit-scrollbar {
+  display: none; /* Chrome */
 }
 
-.App-link {
-  color: #61dafb;
+/* ================= FLOATING HEARTS ================= */
+
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
-@keyframes App-logo-spin {
+.heart {
+  position: absolute;
+  bottom: -20px;
+  width: 16px;
+  height: 16px;
+  background: rgba(192, 132, 252, 0.8);
+  transform: rotate(45deg);
+  animation: floatHeart linear infinite;
+}
+
+/* Heart shape */
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: rgba(192, 132, 252, 0.8);
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -8px;
+  left: 0;
+}
+
+.heart::after {
+  left: -8px;
+  top: 0;
+}
+
+/* Floating animation */
+@keyframes floatHeart {
   from {
-    transform: rotate(0deg);
+    transform: translateY(0) rotate(45deg) scale(0.6);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    transform: translateY(-120vh) rotate(45deg) scale(1.1);
+    opacity: 1;
   }
+}
+
+/* ================= VALENTINE GAME ================= */
+
+.valentine-screen {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2b0a3d, black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  color: #f5e9ff;
+}
+
+.question {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.sad-text {
+  font-size: 1.3rem;
+  color: #fda4af;
+  margin-bottom: 25px;
+}
+
+.buttons {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.yes-btn {
+  padding: 18px 50px;
+  font-size: 1.4rem;
+  border-radius: 40px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 30px #7c3aed;
+  transition: transform 0.3s ease;
+}
+
+.no-btn {
+  padding: 18px 40px;
+  font-size: 1.2rem;
+  border-radius: 40px;
+  border: none;
+  background: #1f2933;
+  color: #fda4af;
+  cursor: pointer;
+}
+
+/* Success screen */
+.success h1 {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.success p {
+  font-size: 1.6rem;
+  max-width: 600px;
+}
+/* ================= LETTER → GAME BUTTON ================= */
+
+.letter-actions {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.letter-game-btn {
+  padding: 14px 45px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 0 25px #7c3aed;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.letter-game-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 40px #7c3aed;
+}
+
+/* ================= LETTER FRAME FIX ================= */
+
+.letter-frame {
+  width: 75vw;
+  max-width: 900px;
+  height: 80vh;
+  background: linear-gradient(145deg, #fdf4ff, #f5e9ff);
+  border-radius: 25px;
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper holds text + footer */
+.letter-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Text area scrolls */
+.typewriter {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+
+  color: #2b003a;
+  font-size: 1.25rem;
+  line-height: 2;
+  white-space: pre-wrap;
+  font-family: "Segoe UI", serif;
+
+  scrollbar-width: none;
+}
+
+.typewriter::-webkit-scrollbar {
+  display: none;
+}
+
+/* Footer ALWAYS visible */
+.letter-footer {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.signature-block p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2b003a;
+}
+
+/* Button */
+.letter-game-btn {
+  padding: 14px 40px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 0 25px #7c3aed;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.letter-game-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 40px #7c3aed;
 }
